@@ -5,6 +5,8 @@ import { getAlerts } from './lib/index.js';
 
 import { wasSent, markSent, send as sendPost } from './lib/index.js';
 
+import { cron } from 'node-cron';
+
 export async function run() {
   const ents = await getAlerts();
 
@@ -21,4 +23,8 @@ export async function run() {
   }
 }
 
-run();
+// every third minute
+cron.schedule('1/3 * * * *', async () => {
+  await run();
+});
+
