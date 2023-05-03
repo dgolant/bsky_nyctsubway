@@ -15,7 +15,7 @@
     "dotenv": "^16.0.3",
     "gtfs-realtime-bindings": "^1.1.1",
     "node-cron": "^3.0.2",
-    "ts-node-esm": "0.0.6"
+    "ts-node": "9.5.1"
   },
   "devDependencies": {
     "@types/node": "^18.15.11",
