@@ -24,7 +24,9 @@ export async function run() {
 }
 
 // every third minute
+console.log('starting');
 cron.schedule('*/3 * * * *', async () => {
+  console.log('running');
   await run();
 });
 
