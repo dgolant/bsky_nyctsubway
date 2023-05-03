@@ -7,9 +7,6 @@ const dbAddress = process.env.DB_ADDRESS!;
 
 const dbString = path.join(dbAddress, dbKey);
 export async function markSent(id: string): Promise<boolean> {
-  // curl -X PUT -d '"Alan Turing"' \
-  // 'https://docs-examples.firebaseio.com/fireblog/users/alanisawesome/name.json'
-
   const res = await fetch(`${path.join(dbString, 'entity_ids')}.json`, {
     method: 'PATCH',
     headers: {
@@ -25,7 +22,6 @@ export async function markSent(id: string): Promise<boolean> {
 }
 
 export async function wasSent(id: string): Promise<boolean> {
-  // console.log(dbString);
   const res = await fetch(`${dbString}.json`, {
     method: 'GET',
     headers: {

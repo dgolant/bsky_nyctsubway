@@ -4,8 +4,6 @@ export async function getAlerts() {
   const res = await fetch('https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/camsys%2Fsubway-alerts', {
     headers: {
       'x-api-key': process.env.GTFS_KEY!,
-      // replace with your GTFS-realtime source's auth token
-      // e.g. x-api-key is the header value used for NY's MTA GTFS APIs
     },
   });
   if (!res.ok) {
