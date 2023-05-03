@@ -1,38 +1,24 @@
-import bsky from '@atproto/api';
-const { BskyAgent } = bsky;
 import * as dotenv from 'dotenv';
-import process from 'node:process';
 dotenv.config();
 
-const agent = new BskyAgent({
-  service: 'https://bsky.social',
-});
+import { getAlerts } from './lib/index.js';
 
-await agent.login({
-  identifier: process.env.BSKY_USERNAME!,
-  password: process.env.BSKY_PASSWORD!,
-});
+import { wasSent, markSent, send as sendPost } from './lib/index.js';
 
-const bleet = 'You can find the code for this bleet >>>here<<<, with a link card, a title and a description!';
-await agent.post({
-  text: bleet,
-  facets: [
-    {
-      index: { byteStart: bleet.indexOf('>>>') + 3, byteEnd: bleet.indexOf('<<<') },
-      features: [
-        {
-          $type: 'app.bsky.richtext.facet#link',
-          uri: 'https://github.com/aliceisjustplaying/atproto-starter-kit',
-        }
-      ]
+export async function run() {
+  const ents = await getAlerts();
+
+  for (const ent of ents) {
+    const sentPreviously = await wasSent(ent.id);
+    if (sentPreviously) continue;
+    if (ent.alert && ent.alert.headerText) {
+      const alertHeader = ent.alert.headerText.translation;
+      if (!alertHeader) continue;
+      const bleet = alertHeader[0].text;
+      sendPost(bleet, [], {}, ent.id);
+      markSent(ent.id);
     }
-  ],
-  embed: {
-    $type: 'app.bsky.embed.external',
-    external: {
-      uri: 'https://github.com/aliceisjustplaying/atproto-starter-kit',
-      title: "alice's atproto starter kit",
-      description: "i'm just playing around with the api",
-    },
-  },
-});
+  }
+}
+
+run();
