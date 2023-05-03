@@ -14,7 +14,8 @@
     "@atproto/api": "^0.2.7",
     "dotenv": "^16.0.3",
     "gtfs-realtime-bindings": "^1.1.1",
-    "node-cron": "^3.0.2"
+    "node-cron": "^3.0.2",
+    "ts-node-esm": "0.0.6"
   },
   "devDependencies": {
     "@types/node": "^18.15.11",
