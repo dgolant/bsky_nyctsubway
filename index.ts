@@ -11,6 +11,7 @@ export async function run() {
   const ents = await getAlerts();
 
   for (const ent of ents) {
+    console.log({ id: ent.id });
     const sentPreviously = await wasSent(ent.id);
     if (sentPreviously) continue;
     if (ent.alert && ent.alert.headerText) {
